@@ -1,10 +1,16 @@
 <script>
     // Define the items and their prices
     const items = [
-      { name: 'Pokémon Berry', price: '$5' },
-      { name: 'Pokémon Egg', price: '$20' },
-      { name: 'Soap', price: '$2' }
-    ];
+    { name: 'Egg', price: '$20' },
+    { name: 'Soap', price: '$2' },
+    { name: 'Oran Berry', price: '$3' },
+    { name: 'Sitrus Berry', price: '$4' },
+    { name: 'Lum Berry', price: '$6' },
+    { name: 'Pecha Berry', price: '$3' },
+    { name: 'Rawst Berry', price: '$3' },
+    { name: 'Cheri Berry', price: '$3' },
+    { name: 'Chesto Berry', price: '$3' }
+  ];
   </script>
   
   <main>
