@@ -10,6 +10,22 @@ h2 {
   color: #ff4500;
 }
 
+nav {
+  background-color: #4682b4;
+  padding: 10px;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  margin: 0 15px;
+  font-weight: bold;
+}
+
+nav a:hover {
+  color: #ff4500;
+}
+
 input {
   padding: 8px;
   margin: 10px;
@@ -58,4 +74,17 @@ img {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 20px;
+}
+
+.stats-box {
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  padding: 10px 20px;
+  width: fit-content;
+  margin: 20px auto;
+  text-align: left;
+}
+
+.stats-box h2 {
+  text-align: center;
 }
