@@ -24,13 +24,6 @@ searchButton.addEventListener("click", async () => {
   }
 });
 
-mount(StorageBox, {
-  target: app,
-  props: {
-    name: "Pikachu",
-  },
-});
-
 app.appendChild(input);
 app.appendChild(searchButton);
 
