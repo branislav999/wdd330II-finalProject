@@ -33,3 +33,29 @@ img {
   border: 2px solid #ccc;
   border-radius: 10px;
 }
+
+.storage-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: fit-content;
+  align-items: center;
+  margin: 20px auto auto auto;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  padding: 10px 20px;
+}
+
+.storage-box * {
+  margin: 0px;
+}
+
+.storage-box img {
+  border: none;
+}
+
+#storage-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+}
