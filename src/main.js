@@ -1,4 +1,5 @@
 import "./style.css";
+import { mount } from "svelte";
 import { fetchPokemon } from "./js/api";
 import StorageBox from "./js/components/StorageBox.svelte";
 
@@ -22,6 +23,12 @@ searchButton.addEventListener("click", async () => {
   }
 });
 
+mount(StorageBox, {
+  target: app,
+  props: {
+    name: "Pikachu",
+  },
+});
+
 app.appendChild(input);
 app.appendChild(searchButton);
-app.appendChild(testStorageBox);
