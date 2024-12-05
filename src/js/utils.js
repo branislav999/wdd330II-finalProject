@@ -1,5 +1,5 @@
 export function renderHeaderFooter() {
-  const header = document.createElement("header");
+  const header = document.createElement('header');
   header.innerHTML = `
     <nav>
       <a href="/pokemon">Pokemon</a>
@@ -8,7 +8,7 @@ export function renderHeaderFooter() {
     </nav>
   `;
 
-  const footer = document.createElement("footer");
+  const footer = document.createElement('footer');
   footer.innerHTML = `
     <p>WDD330 Final Project - Team Thinkpad</p>
   `;
