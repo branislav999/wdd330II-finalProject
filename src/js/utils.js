@@ -10,7 +10,7 @@ export function renderHeaderFooter() {
 
   const footer = document.createElement("footer");
   footer.innerHTML = `
-    <p>Placeholder footer text</p>
+    <p>WDD330 Final Project - Team Thinkpad</p>
   `;
 
   document.body.prepend(header);
