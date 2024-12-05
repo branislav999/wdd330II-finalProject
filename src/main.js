@@ -2,6 +2,7 @@ import "./style.css";
 import { mount } from "svelte";
 import { fetchPokemon } from "./js/api";
 import StorageBox from "./js/components/StorageBox.svelte";
+import Storage from "./js/components/pages/Storage.svelte";
 
 const app = document.querySelector("#app");
 const searchButton = document.createElement("button");
@@ -32,3 +33,11 @@ mount(StorageBox, {
 
 app.appendChild(input);
 app.appendChild(searchButton);
+
+const storageContainer = document.createElement("div");
+app.appendChild(storageContainer);
+
+mount(Storage, {
+  target: storageContainer,
+  props: {},
+});
