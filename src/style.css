@@ -33,3 +33,10 @@ img {
   border: 2px solid #ccc;
   border-radius: 10px;
 }
+
+.storage-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+}
