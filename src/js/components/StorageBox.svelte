@@ -1,26 +1,31 @@
 <script>
     import { fetchPokemon } from '../api.js';
-    {/* This will get data from DB about each pokemon */}
-    {/* Maybe we want a utils.js to have functions like getPokemonDetails */}
+    import Pokemon from './pages/Pokemon.svelte';
+    import { selectedPokemon } from '../store.js';
+    /*  */
 
-    export let name = 'Default Name';
+    export let name = 'Ditto'; /* Default name as backup */
     let image = '';
+    let pokemon = {};
 
     async function getImage() {
-        const imageRes = await fetchPokemon(name.toLowerCase());
-        console.log(imageRes);
-        image = imageRes.sprites.front_default;
+        pokemon = await fetchPokemon(name.toLowerCase());
+        image = pokemon.sprites.front_default; /* Show low res sprite on storage card */
     }
 
     getImage();
 
-  </script>
-  
+    function handleClick() {
+        selectedPokemon.set(pokemon);
+    }
+</script>
+
+<a href='/pokemon' class="storage-box-link" on:click={handleClick}>
   <div class="storage-box">
     <img src={image} alt="Pokemon Preview" />
-    <h2>{name}</h2>
+    <h2>{name}</h2> 
     <p>Status: Awake</p>
     <p>Hunger: 24%</p>
     <p>Happiness: 87%</p>
   </div>
-  
+</a>

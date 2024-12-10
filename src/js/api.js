@@ -5,3 +5,10 @@ export async function fetchPokemon(name) {
   }
   return await response.json();
 }
+
+export async function getSprite(name) {
+  await fetchPokemon(name).then((data) => {
+    const sprite = data.sprites.other.home.front_default;
+    return sprite;
+  });
+}
