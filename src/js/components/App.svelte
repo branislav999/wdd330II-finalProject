@@ -4,12 +4,18 @@
     import Pokemon from './pages/Pokemon.svelte';
     import Shop from './pages/Shop.svelte';
     import Storage from './pages/Storage.svelte';
-  
+    import Supabase from './pages/Supabase.svelte';
+    import Register from './pages/Register.svelte';
+
+
     let routes = [
       { path: '/', component: Login },
       { path: '/pokemon', component: Pokemon },
       { path: '/shop', component: Shop },
       { path: '/storage', component: Storage },
+      { path: '/supabase', component: Supabase},
+      { path: '/register', component: Register},
+
     ];
   </script>
   
