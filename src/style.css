@@ -92,3 +92,8 @@ img {
 .stats-box h2 {
   text-align: center;
 }
+
+#environment-background {
+  width: 800px;
+  max-width: 80%;
+}

@@ -1,23 +1,23 @@
 <script>
-    import { fetchPokemon } from '../api.js';
-    import Pokemon from './pages/Pokemon.svelte';
-    import { selectedPokemon } from '../store.js';
-    /*  */
+  import { fetchPokemon } from '../api.js';
+  import { navigate } from 'svelte-routing';
 
-    export let name = 'Ditto'; /* Default name as backup */
-    let image = '';
-    let pokemon = {};
+  export let name = 'Ditto';
+  let image = '';
+  let pokemon = {};
 
-    async function getImage() {
-        pokemon = await fetchPokemon(name.toLowerCase());
-        image = pokemon.sprites.front_default; /* Show low res sprite on storage card */
-    }
+  async function getPokemon() {
+      pokemon = await fetchPokemon(name.toLowerCase());
+      image = pokemon.sprites.front_default;
+  }
 
-    getImage();
+  getPokemon();
 
-    function handleClick() {
-        selectedPokemon.set(pokemon);
-    }
+  function handleClick(event) {
+      event.preventDefault();
+      localStorage.setItem('selectedPokemon', JSON.stringify(pokemon));
+      navigate('/pokemon');
+  }
 </script>
 
 <a href='/pokemon' class="storage-box-link" on:click={handleClick}>
