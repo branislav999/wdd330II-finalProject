@@ -114,7 +114,7 @@ img {
   left: 50%;
   transform: translate(-50%, -50%);
   border: none;
-  margin: 0;
+  margin: 50px 0 0 0;
   padding: 0;
   z-index: 1;
   animation: wander 15s infinite ease-in-out, hop 1.5s infinite ease-in-out;
@@ -146,4 +146,8 @@ img {
   50% {
     top: 45%;
   }
+}
+
+.capitalize {
+  text-transform: capitalize;
 }
