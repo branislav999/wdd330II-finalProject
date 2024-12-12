@@ -1,8 +1,11 @@
 <script>
-  import Stats from '../Stats.svelte';
+    import { onMount } from 'svelte';
+    import Stats from '../Stats.svelte';
+    import PokemonDisplay from '../PokemonDisplay.svelte';
+    
 </script>
 
-<h1>Pokemon Name</h1>
 <p>This page will show the pokemon that you clicked on from the Storage page. It will show the pokemon, its status, and actions you can take.</p>
 
+<PokemonDisplay />
 <Stats />
