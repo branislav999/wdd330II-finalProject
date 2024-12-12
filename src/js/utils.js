@@ -5,6 +5,7 @@ export function renderHeaderFooter() {
       <a href="/pokemon">Pokemon</a>
       <a href="/shop">Shop</a>
       <a href="/storage">Storage</a>
+      <a href="/backpack">Backpack</a>
     </nav>
   `;
 
