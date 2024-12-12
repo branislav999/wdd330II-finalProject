@@ -7,8 +7,8 @@ export async function fetchPokemon(name) {
 }
 
 export async function getSprite(name) {
-  await fetchPokemon(name).then((data) => {
-    const sprite = data.sprites.other.home.front_default;
-    return sprite;
-  });
+  const data = await fetchPokemon(name);
+  const sprite = data.sprites.other.home.front_default;
+  console.log('sending back URL of: ', sprite);
+  return sprite;
 }

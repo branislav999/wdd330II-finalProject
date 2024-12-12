@@ -7,15 +7,17 @@
     async function fetchSprite() {
         selectedPokemon = JSON.parse(localStorage.getItem('selectedPokemon'));
         if (selectedPokemon) {
-            spriteUrl = await getSprite(selectedPokemon.id);
-            console.log(spriteUrl);
+            spriteUrl = await getSprite(selectedPokemon.name);
+            console.log('spriteurl', spriteUrl);
         }
     }
 
     fetchSprite();
 </script>
 
-<img id='environment-background' src='src\images\grass-bg.jpg' alt="grass background"/>
-{#if spriteUrl}
-    <img src={spriteUrl} alt="pokemon sprite"/>
-{/if}
+<div class="pokemon-container">
+    <img id='environment-background' src='src\images\grass-bg.jpg' alt="grass background"/>
+    {#if spriteUrl}
+        <img id='sprite' src={spriteUrl} alt="pokemon sprite"/>
+    {/if}
+</div>
