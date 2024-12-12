@@ -74,6 +74,10 @@ img {
   border: none;
 }
 
+.storage-box-link {
+  text-decoration: none;
+}
+
 #storage-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -91,4 +95,63 @@ img {
 
 .stats-box h2 {
   text-align: center;
+}
+
+.pokemon-container {
+  position: relative;
+  width: 800px;
+  max-width: 80%;
+  margin: 0 auto;
+}
+
+#environment-background {
+  width: 100%;
+  display: block;
+  border: none;
+  margin: 0;
+}
+
+#sprite {
+  width: 25%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: none;
+  margin: 50px 0 0 0;
+  padding: 0;
+  z-index: 1;
+  animation: wander 15s infinite ease-in-out, hop 1.5s infinite ease-in-out;
+}
+
+@keyframes wander {
+  0% {
+    left: 20%;
+  }
+  25% {
+    left: 35%;
+  }
+  50% {
+    left: 50%;
+  }
+  75% {
+    left: 65%;
+  }
+  100% {
+    left: 20%;
+  }
+}
+
+@keyframes hop {
+  0%,
+  100% {
+    top: 50%;
+  }
+  50% {
+    top: 45%;
+  }
+}
+
+.capitalize {
+  text-transform: capitalize;
 }

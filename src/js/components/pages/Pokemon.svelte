@@ -1,5 +1,7 @@
 <script>
   import Stats from '../Stats.svelte';
+  import { onMount } from 'svelte';
+  import PokemonDisplay from '../PokemonDisplay.svelte';
   import CoinDisplay from '../CoinDisplay.svelte';
   import { addCoins } from '../../coinStore';
 
@@ -15,12 +17,7 @@
 </script>
 
 <CoinDisplay />
-<h1>Pokemon Name</h1>
-<p>
-  This page will show the pokemon that you clicked on from the Storage page. It
-  will show the pokemon, its status, and actions you can take.
-</p>
-
+<PokemonDisplay />
 <Stats />
 
 <div class="actions">
