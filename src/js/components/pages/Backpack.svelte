@@ -22,7 +22,7 @@
         </div>
       {/each}
     {:else}
-      <p>Your backpack is empty.</p>
+      <p class="empty">Your backpack is empty.</p>
     {/if}
   </div>
 </div>
@@ -30,8 +30,9 @@
 <style>
   .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    gap: 10px;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    padding: 20px;
+    gap: 20px;
   }
 
   .item {
@@ -62,5 +63,11 @@
     margin-top: 5px;
     font-size: 12px;
     color: #666;
+  }
+
+  .empty {
+    font-size: 16px;
+    color: #ff2020;
+    font-weight: bold;
   }
 </style>
