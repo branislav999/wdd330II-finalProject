@@ -5,6 +5,7 @@
 
   // Hard-coded list of items
   let items = [
+    // Items remain unchanged
     {
       name: 'Cheri Berry',
       price: 5,
@@ -83,12 +84,11 @@
       image:
         'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/hyper-potion.png',
     },
-    {
-      name: 'Egg',
-      price: 20,
-      image: 'src/images/egg.png',
-    },
+    { name: 'Egg', price: 20, image: 'src/images/egg.png' },
   ];
+
+  let showModal = false;
+  let modalMessage = '';
 
   // Buying items
   function buyItem(item) {
@@ -96,10 +96,15 @@
     if (currentCoins >= item.price) {
       spendCoins(item.price);
       addToBackpack(item);
-      alert(`${item.name} added to backpack!`);
+      modalMessage = `${item.name} added to Backpack!`;
     } else {
-      alert('Not enough coins!');
+      modalMessage = 'Not enough coins!';
     }
+    showModal = true;
+  }
+
+  function closeModal() {
+    showModal = false;
   }
 </script>
 
@@ -111,15 +116,58 @@
       <div class="item-card">
         <img src={item.image} alt={item.name} />
         <h2>{item.name}</h2>
-        <p>{item.description}</p>
         <p>Price: ${item.price}</p>
         <button on:click={() => buyItem(item)}>Buy</button>
       </div>
     {/each}
   </div>
+
+  {#if showModal}
+    <div class="modal">
+      <div class="modal-content">
+        <p>{modalMessage}</p>
+        <button on:click={closeModal}>Close</button>
+      </div>
+    </div>
+  {/if}
 </main>
 
 <style>
+  .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 0.3s ease-out;
+  }
+
+  .modal-content button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .modal-content button:hover {
+    background-color: #45a049;
+  }
+
   .shop-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
@@ -131,20 +179,33 @@
   .item-card {
     border: 1px solid #ccc;
     border-radius: 10px;
-    padding: 10px;
+    padding: 20px;
     text-align: center;
-    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  .item-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
   }
 
   .item-card img {
-    width: 100px;
-    height: 100px;
+    width: 120px;
+    height: 120px;
     object-fit: contain;
+    margin-bottom: 10px;
+  }
+
+  .item-card h2 {
+    font-size: 1.2em;
+    margin: 10px 0;
   }
 
   .item-card button {
-    margin-top: 10px;
-    padding: 5px 10px;
+    padding: 10px 20px;
     background-color: #4caf50;
     color: white;
     border: none;
@@ -154,5 +215,15 @@
 
   .item-card button:hover {
     background-color: #45a049;
+  }
+
+  /* Animations */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
   }
 </style>
