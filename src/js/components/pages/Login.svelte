@@ -25,7 +25,7 @@
         .from('users')
         .select('id, username, password')
         .eq('username', userName)
-        .single(); 
+        .single();
 
       if (error) throw error;
 
@@ -45,7 +45,49 @@
   };
 </script>
 
+<h1>Login</h1>
+
+<form on:submit|preventDefault={loginUser}>
+  <div>
+    <label for="username">Username</label>
+    <input
+      type="text"
+      id="username"
+      bind:value={$username}
+      placeholder="Username"
+    />
+  </div>
+
+  <div>
+    <label for="password">Password</label>
+    <input
+      type="password"
+      id="password"
+      bind:value={$password}
+      placeholder="Password"
+    />
+  </div>
+
+  {#if $errorMessage}
+    <div class="error">{$errorMessage}</div>
+  {/if}
+
+  <button type="submit">Login</button>
+</form>
+
+{#if $successMessage}
+  <div class="success">{$successMessage}</div>
+{/if}
+
+<button class="register-button" on:click={goToRegister}
+  >Don't have an account? Register here</button
+>
+
 <style>
+  h1 {
+    margin-top: 20px;
+  }
+
   form {
     display: flex;
     flex-direction: column;
@@ -63,7 +105,7 @@
   button {
     margin-top: 10px;
     padding: 0.75rem;
-    background-color: #4CAF50;
+    background-color: #4caf50;
     color: white;
     border: none;
     cursor: pointer;
@@ -82,36 +124,10 @@
   }
 
   .register-button {
-    background-color: #007BFF;
+    background-color: #007bff;
   }
 
   .register-button:hover {
     background-color: #0056b3;
   }
 </style>
-
-<h1>Login</h1>
-
-<form on:submit|preventDefault={loginUser}>
-  <div>
-    <label for="username">Username</label>
-    <input type="text" id="username" bind:value={$username} placeholder="Username" />
-  </div>
-
-  <div>
-    <label for="password">Password</label>
-    <input type="password" id="password" bind:value={$password} placeholder="Password" />
-  </div>
-
-  {#if $errorMessage}
-    <div class="error">{$errorMessage}</div>
-  {/if}
-
-  <button type="submit">Login</button>
-</form>
-
-{#if $successMessage}
-  <div class="success">{$successMessage}</div>
-{/if}
-
-<button class="register-button" on:click={goToRegister}>Don't have an account? Register here</button>

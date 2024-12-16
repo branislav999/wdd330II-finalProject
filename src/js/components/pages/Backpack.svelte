@@ -1,72 +1,11 @@
 <script>
-  import { onMount } from 'svelte';
+  import { backpack } from '../../coinStore';
   import CoinDisplay from '../CoinDisplay.svelte';
 
-  // Store for berries from the API
-  let berries = [
-    // Placeholder data for berries, delete once implemented from store
-    {
-      id: 1,
-      name: 'Cheri Berry',
-      image:
-        'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/cheri-berry.png',
-      quantity: 3,
-    },
-    {
-      id: 2,
-      name: 'Chesto Berry',
-      image:
-        'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/chesto-berry.png',
-      quantity: 5,
-    },
-    {
-      id: 3,
-      name: 'Pecha Berry',
-      image:
-        'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/pecha-berry.png',
-      quantity: 4,
-    },
-    {
-      id: 4,
-      name: 'Rawst Berry',
-      image:
-        'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/rawst-berry.png',
-      quantity: 2,
-    },
-    {
-      id: 5,
-      name: 'Aspear Berry',
-      image:
-        'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/aspear-berry.png',
-      quantity: 6,
-    },
-  ];
-
-  // Fetch berries from the API
-  onMount(async () => {
-    try {
-      const response = await fetch('https://pokeapi.co/api/v2/berry/');
-      const data = await response.json();
-
-      // Fetch detailed data for each berry to get the img
-      const berryDetails = await Promise.all(
-        data.results.map(async (berry) => {
-          const berryResponse = await fetch(berry.url);
-          const berryData = await berryResponse.json();
-
-          return {
-            id: berryData.id,
-            name: berryData.name,
-            image: berryData.item.sprites.default, // Img from the associated item
-            quantity: 2, // Will be updated later
-          };
-        })
-      );
-
-      berries = berryDetails;
-    } catch (error) {
-      console.error('Error fetching berries:', error);
-    }
+  // Subscribe to the backpack storage
+  let backpackItems = [];
+  backpack.subscribe((items) => {
+    backpackItems = items;
   });
 </script>
 
@@ -74,16 +13,16 @@
   <CoinDisplay />
   <h1>Backpack</h1>
   <div class="grid">
-    {#if berries.length > 0}
-      {#each berries as berry (berry.id)}
-        <div class="item">
-          <img src={berry.image} alt={berry.name} />
-          <div class="name">{berry.name}</div>
-          <div class="quantity">x{berry.quantity}</div>
+    {#if backpackItems.length > 0}
+      {#each backpackItems as item (item.name)}
+        <div class="item-card">
+          <img src={item.image} alt={item.name} />
+          <h2>{item.name}</h2>
+          <p>Quantity: x{item.quantity}</p>
         </div>
       {/each}
     {:else}
-      <p>Loading berries...</p>
+      <p class="empty">Your backpack is empty.</p>
     {/if}
   </div>
 </div>
@@ -91,37 +30,51 @@
 <style>
   .grid {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-    gap: 10px;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 20px;
+    justify-items: center;
+    padding: 20px;
   }
 
-  .item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+  .item-card {
     border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 10px;
-    margin: 10px;
+    border-radius: 10px;
+    padding: 20px;
     text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
   }
 
-  .item img {
-    width: 50px;
-    height: 50px;
-    object-fit: cover;
+  .item-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
   }
 
-  .name {
-    margin-top: 10px;
-    font-size: 14px;
-    font-weight: bold;
+  .item-card img {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    margin-bottom: 10px;
   }
 
-  .quantity {
-    margin-top: 5px;
-    font-size: 12px;
+  .item-card h2 {
+    font-size: 1.2em;
+    margin: 10px 0;
+  }
+
+  .item-card p {
+    margin: 5px 0;
+    font-size: 1em;
     color: #666;
+  }
+
+  .empty {
+    font-size: 1.2em;
+    color: #ff2020;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 20px;
   }
 </style>
