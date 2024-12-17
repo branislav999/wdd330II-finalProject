@@ -36,7 +36,9 @@
 
     hungerPercentage = await calculateHunger(pokemonId);
     happinessPercentage = await calculateHappiness(pokemonId);
+
   });
+
 
   getPokemonDetails();
 </script>
@@ -44,8 +46,8 @@
 <div class="stats-box">
   <h2 class="capitalize">{selectedPokemon ? selectedPokemon.name : 'Unknown'}</h2>
   <p>Status: Awake</p>
-  <p>Happiness: {happinessPercentage}%</p>
-  <p>Hunger: {hungerPercentage}%</p>
+  <p class='happinessStat'>Happiness: {happinessPercentage}%</p>
+  <p class='hungerStat'>Hunger: {hungerPercentage}%</p>
   {#if pokemonDetails.height}
     <p>Height: {convertHeightToImperial(pokemonDetails.height)}</p>
   {/if}

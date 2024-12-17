@@ -2,6 +2,7 @@
   import { backpack, addCoins } from '../coinStore';
   import { onMount } from 'svelte';
   import { writable } from 'svelte/store';
+  import { feed, walk } from '../utils';
 
   let backpackItems = [];
   let berries = [];
@@ -43,7 +44,7 @@
     showBerryOptions = true;
   };
 
-  const selectBerry = (berry) => {
+  const selectBerry = async (berry) => {
     // Remove the berry from the backpack
     backpack.update((items) => {
       const updatedItems = items
@@ -61,9 +62,14 @@
     addCoins(6);
     showBerryOptions = false;
     notification.set(`${berry.name} used! Pokémon liked that!`);
+
+    const selectedPokemon = JSON.parse(localStorage.getItem('selectedPokemon'));
+    const pokemonId = selectedPokemon.id;
+
+    await feed(pokemonId)
   };
 
-  const petPokemon = () => {
+  const walkPokemon = async () => {
     if (!petCooldown) {
       addCoins(10);
       // Store the time of last pet action
@@ -71,7 +77,16 @@
       petCooldown = true;
       petCooldownTime = 15 * 60 * 1000; // 15 minutes cooldown time
       startCooldownTimer();
-      notification.set('Pokémon enjoyed being petted!');
+      notification.set('Pokémon enjoyed being taken on a walk!');
+
+      const selectedPokemon = JSON.parse(localStorage.getItem('selectedPokemon'));
+      const pokemonId = selectedPokemon.id;
+
+      await walk(pokemonId)
+
+
+
+
     } else {
       notification.set("You can't pet the Pokémon yet! Wait for the cooldown.");
     }
@@ -133,14 +148,14 @@
     </div>
   {/if}
 
-  <button class="action-btn" on:click={petPokemon} disabled={petCooldown}>
-    Pet
+  <button class="action-btn" on:click={walkPokemon} disabled={petCooldown}>
+    Walk
     {#if petCooldown}
       <span> (Cooldown: {formatTime(petCooldownTime)})</span>
     {/if}
   </button>
 
-  <button class="action-btn" on:click={carePokemon}>Care</button>
+  <!-- <button class="action-btn" on:click={carePokemon}>Care</button>
   {#if showPotionOptions}
     <div class="options">
       {#each potions as potion}
@@ -149,7 +164,7 @@
         </button>
       {/each}
     </div>
-  {/if}
+  {/if} -->
 </div>
 
 {#if $notification}

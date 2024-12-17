@@ -6,9 +6,7 @@
   let coins;
   
   onMount(async() => {
-    const userId = localStorage.getItem('userId');
-
-    coins = await getCoins(userId);
+    coins = await getCoins();
   });
 
 
@@ -20,7 +18,7 @@
   <div class="coinBar">
     <div class="coinInfo">
       <img class="coinImg" src="/src/images/coin.webp" alt="Coin Icon" />
-      <span>{coins}</span>
+      <span class="coinAmount">{coins}</span>
     </div>
   </div>
 </div>
