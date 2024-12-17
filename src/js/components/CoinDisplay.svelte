@@ -1,9 +1,18 @@
 <script>
-  import { coinBalance } from '../coinStore';
+  import { onMount } from 'svelte';
+  import { getCoins } from '../utils';
 
-  // Subscribe to the coin balance
+
   let coins;
-  coinBalance.subscribe((value) => (coins = value));
+  
+  onMount(async() => {
+    const userId = localStorage.getItem('userId');
+
+    coins = await getCoins(userId);
+  });
+
+
+
 </script>
 
 <div class="coinContainer">

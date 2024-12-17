@@ -3,7 +3,7 @@ body {
   text-align: center;
   background-color: #f0f8ff;
   margin: 0;
-  padding: 0;
+  padding: 40px;
 }
 
 h1 {
@@ -60,10 +60,15 @@ img {
   justify-content: center;
   width: fit-content;
   align-items: center;
+  max-width: 200px; 
   margin: 20px auto auto auto;
   border: 2px solid #ccc;
   border-radius: 10px;
   padding: 10px 20px;
+}
+
+.storage-box img {
+  max-width: 150px;
 }
 
 .storage-box * {
@@ -155,3 +160,68 @@ img {
 .capitalize {
   text-transform: capitalize;
 }
+
+
+/* .pokemon-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: #f0f8ff;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 200px;
+  text-align: center;
+  margin: 20px auto;
+}
+
+.pokemon-container img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 10px;
+}
+
+.pokemon-container h2 {
+  font-size: 1.5em;
+  margin: 10px 0;
+  color: #333;
+}
+
+.pokemon-container p {
+  font-size: 1em;
+  color: #555;
+  margin: 5px 0;
+}
+
+.pokemon-container p.hunger {
+  font-weight: bold;
+  color: #ff4500;
+}
+
+.storage-box-link {
+  text-decoration: none;
+}
+
+.storage-box-link:hover .storage-box {
+  transform: scale(1.05);
+  transition: transform 0.2s ease;
+}
+
+.storage-box {
+  background-color: white;
+  border-radius: 10px;
+  padding: 15px;
+  width: 100%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+}
+
+.storage-box img {
+  max-width: 100%;
+}
+
+.storage-box h2, .storage-box p {
+  margin: 0;
+} */

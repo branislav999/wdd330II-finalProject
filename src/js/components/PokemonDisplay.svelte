@@ -8,7 +8,6 @@
         selectedPokemon = JSON.parse(localStorage.getItem('selectedPokemon'));
         if (selectedPokemon) {
             spriteUrl = await getSprite(selectedPokemon.name);
-            console.log('spriteurl', spriteUrl);
         }
     }
 
