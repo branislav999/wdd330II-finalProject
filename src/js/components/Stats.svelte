@@ -1,5 +1,8 @@
 <script>
   import { fetchPokemon } from '../api.js';
+  import { calculateHappiness, calculateHunger } from '../utils.js';
+  import { onMount } from 'svelte';
+
 
   let selectedPokemon = JSON.parse(localStorage.getItem('selectedPokemon'));
   let pokemonDetails = {};
@@ -22,14 +25,27 @@
     return `${pounds} lbs`;
   }
 
+
+  let hungerPercentage;
+  let happinessPercentage;
+
+  onMount(async () => {
+
+    const selectedPokemon = JSON.parse(localStorage.getItem('selectedPokemon'));
+    const pokemonId = selectedPokemon.id;
+
+    hungerPercentage = await calculateHunger(pokemonId);
+    happinessPercentage = await calculateHappiness(pokemonId);
+  });
+
   getPokemonDetails();
 </script>
 
 <div class="stats-box">
   <h2 class="capitalize">{selectedPokemon ? selectedPokemon.name : 'Unknown'}</h2>
   <p>Status: Awake</p>
-  <p>Happiness: 87%</p>
-  <p>Hunger: 24%</p>
+  <p>Happiness: {happinessPercentage}%</p>
+  <p>Hunger: {hungerPercentage}%</p>
   {#if pokemonDetails.height}
     <p>Height: {convertHeightToImperial(pokemonDetails.height)}</p>
   {/if}
