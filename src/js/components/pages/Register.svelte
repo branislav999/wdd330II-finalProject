@@ -1,6 +1,7 @@
 <script>
   import { supabase } from '../../../lib/supabase';
   import { writable } from 'svelte/store';
+  import { addRandomPokemonsToOwned } from '../../utils'
 
   let firstName = writable('');
   let lastName = writable('');
@@ -31,11 +32,16 @@
           last_name: lName,
           username: userName,
           password: passWord,
-          coins: 500,
+          coins: 100,
         },
-      ]);
+      ]).select('id');
 
       if (error) throw error;
+
+        const userId = data[0].id;
+
+      await addRandomPokemonsToOwned(userId);
+
 
       successMessage.set('Registration successful!');
     } catch (error) {

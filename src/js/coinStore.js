@@ -1,4 +1,7 @@
 import { writable } from 'svelte/store';
+import { getLocalStorageId } from './utils';
+import { supabase } from '../lib/supabase';
+
 
 // Store with localStorage
 function createPersistentStore(key, initialValue) {
@@ -26,8 +29,18 @@ export function addCoins(amount) {
   coinBalance.update((balance) => balance + amount);
 }
 
-export function spendCoins(amount) {
-  coinBalance.update((balance) => Math.max(0, balance - amount)); // Prevent negative balance
+export async function spendCoins(amount) {
+
+    const userId = getLocalStorageId();
+  
+      await supabase
+      .from('users')
+      .update({coins: amount})
+      .eq('id', userId);  
+      
+      document.querySelector('.coinAmount').innerHTML = amount;
+  
+
 }
 
 // Add items to the backpack
