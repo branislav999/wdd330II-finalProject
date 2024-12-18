@@ -1,7 +1,7 @@
 <script>
   import StorageBox from '../StorageBox.svelte';
   import CoinDisplay from '../CoinDisplay.svelte';
-  import { getAllPokemons } from '../../utils';
+  import { getAllPokemons, hatchPokemon } from '../../utils';
   import { eggs } from '../../coinStore';
   import { onMount } from 'svelte';
 
@@ -34,14 +34,17 @@
   });
 
   function startCountdown(item) {
-    const endTime = new Date(item.timePurchased).getTime() + 30 * 1000; // 30 seconds countdown
-    countdowns[item.timePurchased] = setInterval(() => {
+    const endTime = new Date(item.timePurchased).getTime() + 10 * 1000; // 30 seconds countdown
+    countdowns[item.timePurchased] = setInterval(async () => {
       const now = new Date().getTime();
       const distance = endTime - now;
 
       if (distance < 0) {
         clearInterval(countdowns[item.timePurchased]);
         countdowns[item.timePurchased] = '00:00';
+        await hatchPokemon();
+        // Remove the hatched egg from the eggs storage
+        eggs.update(items => items.filter(i => i.timePurchased !== item.timePurchased));
       } else {
         const seconds = Math.floor((distance % (1000 * 60)) / 1000);
         countdowns[item.timePurchased] = `00:${seconds < 10 ? '0' : ''}${seconds}`;
