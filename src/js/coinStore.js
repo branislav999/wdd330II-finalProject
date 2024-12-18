@@ -2,7 +2,6 @@ import { writable } from 'svelte/store';
 import { getLocalStorageId } from './utils';
 import { supabase } from '../lib/supabase';
 
-
 // Store with localStorage
 function createPersistentStore(key, initialValue) {
   const storedValue = localStorage.getItem(key);
@@ -24,23 +23,20 @@ export const coinBalance = createPersistentStore('coinBalance', 100);
 // Persistent backpack
 export const backpack = createPersistentStore('backpack', []);
 
+// Persistent eggs
+export const eggs = createPersistentStore('eggs', []);
+
 // Add and spend coins
 export function addCoins(amount) {
   coinBalance.update((balance) => balance + amount);
 }
 
 export async function spendCoins(amount) {
+  const userId = getLocalStorageId();
 
-    const userId = getLocalStorageId();
-  
-      await supabase
-      .from('users')
-      .update({coins: amount})
-      .eq('id', userId);  
-      
-      document.querySelector('.coinAmount').innerHTML = amount;
-  
+  await supabase.from('users').update({ coins: amount }).eq('id', userId);
 
+  document.querySelector('.coinAmount').innerHTML = amount;
 }
 
 // Add items to the backpack
@@ -52,6 +48,14 @@ export function addToBackpack(item) {
     } else {
       items.push({ ...item, quantity: 1 });
     }
+    return items;
+  });
+}
+
+// Add eggs to the eggs storage
+export function addEgg() {
+  eggs.update((items) => {
+    items.push({ name: 'Egg', timePurchased: new Date().toISOString() });
     return items;
   });
 }

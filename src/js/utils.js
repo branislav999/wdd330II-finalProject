@@ -1,6 +1,5 @@
 import { supabase } from '../lib/supabase';
 
-
 export function renderHeaderFooter() {
   const header = document.createElement('header');
   header.innerHTML = `
@@ -21,7 +20,6 @@ export function renderHeaderFooter() {
   document.body.appendChild(footer);
 }
 
-
 export async function getAllPokemons(userId) {
   try {
     const { data, error } = await supabase
@@ -29,7 +27,7 @@ export async function getAllPokemons(userId) {
       .select('*')
       .eq('user_id', userId);
 
-      console.log('Supabase query data:', data);  
+    console.log('Supabase query data:', data);
 
     return data;
   } catch (error) {
@@ -38,87 +36,82 @@ export async function getAllPokemons(userId) {
 }
 
 export async function getOwnedPokemon(pokemonId) {
-  try{ 
-    const {data, error} = await supabase
-    .from('pokemonOwned')
-    .select('*')
-    .eq('id', pokemonId)
-    .single();
+  try {
+    const { data, error } = await supabase
+      .from('pokemonOwned')
+      .select('*')
+      .eq('id', pokemonId)
+      .single();
 
-    return data
-
+    return data;
   } catch (error) {
-    console.error('Error fething Pokemon: ', error.message)
-    
+    console.error('Error fething Pokemon: ', error.message);
   }
 }
 
 export async function calculateHunger(pokemonId) {
-    
-    const pokemon = await getOwnedPokemon(pokemonId);
+  const pokemon = await getOwnedPokemon(pokemonId);
 
-    const date = new Date(pokemon.last_fed);
-    const now = new Date();
+  const date = new Date(pokemon.last_fed);
+  const now = new Date();
 
-    const hunger = pokemon.hunger
+  const hunger = pokemon.hunger;
 
-    const difference = now - date;
-    const differenceInMinutes = Math.floor(difference / 1000 / 60);
+  const difference = now - date;
+  const differenceInMinutes = Math.floor(difference / 1000 / 60);
 
-    const maxHungerTime = 3 * 24 * 60;
+  const maxHungerTime = 3 * 24 * 60;
 
-    let hungerPercentage = hunger - (differenceInMinutes / maxHungerTime * 100);
+  let hungerPercentage = hunger - (differenceInMinutes / maxHungerTime) * 100;
 
-    if (differenceInMinutes >= maxHungerTime) {
-      hungerPercentage = 0;
-    }
+  if (differenceInMinutes >= maxHungerTime) {
+    hungerPercentage = 0;
+  }
 
-    if (hungerPercentage > 100) {
-      hungerPercentage = 100;
-    }
+  if (hungerPercentage > 100) {
+    hungerPercentage = 100;
+  }
 
-    hungerPercentage = Math.round(hungerPercentage);
+  hungerPercentage = Math.round(hungerPercentage);
 
-    console.log(`Calculate Hunger percentage ${hungerPercentage}`)
+  console.log(`Calculate Hunger percentage ${hungerPercentage}`);
 
-
-    return hungerPercentage;
-
+  return hungerPercentage;
 }
 
 export async function calculateHappiness(pokemonId) {
   const pokemon = await getOwnedPokemon(pokemonId);
 
-    const date = new Date(pokemon.last_walked);
-    const now = new Date();
+  const date = new Date(pokemon.last_walked);
+  const now = new Date();
 
-    const happiness = pokemon.happiness
+  const happiness = pokemon.happiness;
 
-    const difference = now - date;
-    let differenceInMinutes = Math.floor(difference / 1000 / 60);
+  const difference = now - date;
+  let differenceInMinutes = Math.floor(difference / 1000 / 60);
 
-    if (differenceInMinutes < 0){
-      differenceInMinutes = 0;
-    }
-  
-    const maxHappinessTime = 6 * 24 * 60;
+  if (differenceInMinutes < 0) {
+    differenceInMinutes = 0;
+  }
 
-    let happinessPercentage = happiness - (differenceInMinutes / maxHappinessTime * 100);
+  const maxHappinessTime = 6 * 24 * 60;
 
-    if (differenceInMinutes >= maxHappinessTime) {
-      happinessPercentage = 0;
-    }
+  let happinessPercentage =
+    happiness - (differenceInMinutes / maxHappinessTime) * 100;
 
-    if (happinessPercentage > 100) {
-      happinessPercentage = 100;
-    }
+  if (differenceInMinutes >= maxHappinessTime) {
+    happinessPercentage = 0;
+  }
 
-    happinessPercentage = Math.round(happinessPercentage);
+  if (happinessPercentage > 100) {
+    happinessPercentage = 100;
+  }
 
-    console.log(`Calculate Happiness percentage ${happinessPercentage}`)
+  happinessPercentage = Math.round(happinessPercentage);
 
-    return happinessPercentage;
+  console.log(`Calculate Happiness percentage ${happinessPercentage}`);
 
+  return happinessPercentage;
 }
 
 export function getLocalStorageId() {
@@ -126,42 +119,34 @@ export function getLocalStorageId() {
   return id;
 }
 
-
 export async function getCoins() {
-  try{ 
-
+  try {
     const userId = getLocalStorageId();
 
-    const {data, error} = await supabase
-    .from('users')
-    .select('coins')
-    .eq('id', userId)
-    .single();
+    const { data, error } = await supabase
+      .from('users')
+      .select('coins')
+      .eq('id', userId)
+      .single();
 
-    return data.coins
-
+    return data.coins;
   } catch (error) {
-    console.error('Error fething Pokemon: ', error.message)
-    
+    console.error('Error fething Pokemon: ', error.message);
   }
-
 }
 
 export async function feed(pokemonId) {
-
-  try{
-
+  try {
     const updatedHunger = await calculateHunger(pokemonId);
     const updatedHappiness = await calculateHappiness(pokemonId);
 
     await supabase
-    .from('pokemonOwned')
-    .update({
-      happiness: updatedHappiness,
-      hunger: updatedHunger
-    })
-    .eq('id', pokemonId)
-
+      .from('pokemonOwned')
+      .update({
+        happiness: updatedHappiness,
+        hunger: updatedHunger,
+      })
+      .eq('id', pokemonId);
 
     const { data, error: fetchError } = await supabase
       .from('pokemonOwned')
@@ -169,48 +154,44 @@ export async function feed(pokemonId) {
       .eq('id', pokemonId)
       .single();
 
-      if (fetchError) throw fetchError;
+    if (fetchError) throw fetchError;
 
-      const currentHunger = data.hunger;
-      const newHunger = Math.min(100, currentHunger + 10);
- 
-      const currentHappiness = data.happiness;
-      const newHappiness = Math.min(100, currentHappiness + 10);
-      
-      document.querySelector('.hungerStat').innerHTML = `Hunger: ${newHunger}%`;
-      document.querySelector('.happinessStat').innerHTML = `Happiness: ${newHappiness}%`;
+    const currentHunger = data.hunger;
+    const newHunger = Math.min(100, currentHunger + 10);
 
+    const currentHappiness = data.happiness;
+    const newHappiness = Math.min(100, currentHappiness + 10);
 
+    document.querySelector('.hungerStat').innerHTML = `Hunger: ${newHunger}%`;
+    document.querySelector(
+      '.happinessStat'
+    ).innerHTML = `Happiness: ${newHappiness}%`;
 
     const { error: updateError } = await supabase
-    .from('pokemonOwned')
-    .update({
-      last_fed: new Date(),
-      hunger: newHunger,
-      happiness: newHappiness
-    })
-    .eq('id', pokemonId)
+      .from('pokemonOwned')
+      .update({
+        last_fed: new Date(),
+        hunger: newHunger,
+        happiness: newHappiness,
+      })
+      .eq('id', pokemonId);
 
     console.log('Last fed date updated successfully');
-  } catch (error ){
-    console.error('Unable to update last_fed date')
+  } catch (error) {
+    console.error('Unable to update last_fed date');
   }
-
 }
 
-
 export async function walk(pokemonId) {
-
-  try{
-
+  try {
     const updatedHappiness = await calculateHappiness(pokemonId);
 
     await supabase
-    .from('pokemonOwned')
-    .update({
-      happiness: updatedHappiness
-    })
-    .eq('id', pokemonId)
+      .from('pokemonOwned')
+      .update({
+        happiness: updatedHappiness,
+      })
+      .eq('id', pokemonId);
 
     const { data, error: fetchError } = await supabase
       .from('pokemonOwned')
@@ -218,62 +199,54 @@ export async function walk(pokemonId) {
       .eq('id', pokemonId)
       .single();
 
-      if (fetchError) throw fetchError;
+    if (fetchError) throw fetchError;
 
     const currentHappiness = data.happiness;
     const newHappiness = Math.min(100, currentHappiness + 30);
 
-    document.querySelector('.happinessStat').innerHTML = `Happiness: ${newHappiness}%`;
+    document.querySelector(
+      '.happinessStat'
+    ).innerHTML = `Happiness: ${newHappiness}%`;
 
-    const { error: updateError  } = await supabase
-    .from('pokemonOwned')
-    .update({
-      last_walked: new Date(), 
-    happiness: newHappiness})
-    .eq('id', pokemonId)
-
-
+    const { error: updateError } = await supabase
+      .from('pokemonOwned')
+      .update({
+        last_walked: new Date(),
+        happiness: newHappiness,
+      })
+      .eq('id', pokemonId);
 
     const userId = getLocalStorageId();
 
     const coins = await getCoins();
-    const updatedCoins = coins + 20
+    const updatedCoins = coins + 20;
 
-  await supabase
-  .from('users')
-  .update({ coins: updatedCoins}) 
-  .eq('id', userId);
+    await supabase
+      .from('users')
+      .update({ coins: updatedCoins })
+      .eq('id', userId);
 
-  document.querySelector('.coinAmount').innerHTML = updatedCoins;
+    document.querySelector('.coinAmount').innerHTML = updatedCoins;
 
-
-
-  console.log('Last walked date updated successfully');
-
-
-
-  } catch (error ){
-    console.error('Unable to update last_walked date')
+    console.log('Last walked date updated successfully');
+  } catch (error) {
+    console.error('Unable to update last_walked date');
   }
-
 }
 
-
-
-export async function getPokemonIds(){
+export async function getPokemonIds() {
   const { data, error } = await supabase
     .from('pokemonList')
     .select('pokemon_id')
-    .not('pokemon_id', 'is', null);  
+    .not('pokemon_id', 'is', null);
 
-   
   if (error) {
     console.error('Error fetching data:', error);
     return;
   }
 
-  const pokemonIds = data.map(pokemon => pokemon.pokemon_id);
-  
+  const pokemonIds = data.map((pokemon) => pokemon.pokemon_id);
+
   console.log('Pokemon IDs:', pokemonIds);
   return pokemonIds;
 }
@@ -291,7 +264,7 @@ export async function getRandomPokemonIds() {
   const pokemonIds = await getPokemonIds();
   const numSelections = Math.min(5, pokemonIds.length);
   const randomIndexes = getRandomIndexes(pokemonIds.length, numSelections);
-  const randomPokemonIds = randomIndexes.map(index => pokemonIds[index]);
+  const randomPokemonIds = randomIndexes.map((index) => pokemonIds[index]);
 
   console.log('Random Pokemon IDs:', randomPokemonIds);
   return randomPokemonIds;
@@ -310,15 +283,15 @@ export async function addRandomPokemonsToOwned(user_id) {
     return;
   }
 
-  const pokemonsToAdd = data.map(pokemon => ({
+  const pokemonsToAdd = data.map((pokemon) => ({
     user_id: user_id,
     pokemon_id: pokemon.pokemon_id,
     last_fed: new Date().toISOString(),
     last_walked: new Date().toISOString(),
     name: pokemon.name,
     img_url: pokemon.image_url,
-    happiness: 100, 
-    hunger: 100    
+    happiness: 100,
+    hunger: 100,
   }));
 
   const { error: insertError } = await supabase
@@ -331,4 +304,12 @@ export async function addRandomPokemonsToOwned(user_id) {
   }
 
   console.log('Pokemon added successfully to pokemonOwned');
+}
+
+export async function hatchPokemon() {
+  const now = new Date().toISOString();
+  console.log(`Hatch Pokemon test message at ${now}`);
+  const userId = getLocalStorageId();
+  await addRandomPokemonsToOwned(userId); // Refresh the page
+  location.reload();
 }

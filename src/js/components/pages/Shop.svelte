@@ -1,7 +1,7 @@
-  <script>
+<script>
     import { get } from 'svelte/store';
     import CoinDisplay from '../CoinDisplay.svelte';
-    import { coinBalance, spendCoins, addToBackpack } from '../../coinStore';
+    import { coinBalance, spendCoins, addToBackpack, addEgg } from '../../coinStore';
   import { getCoins } from '../../utils';
 
     // Hard-coded list of items
@@ -97,7 +97,11 @@
       if (currentCoins >= item.price) {
         const amount = currentCoins - item.price;
         await spendCoins(amount);
-        addToBackpack(item);
+        if (item.name === 'Egg') {
+          addEgg();
+        } else {
+          addToBackpack(item);
+        }
         modalMessage = `${item.name} added to Backpack!`;
       } else {
         modalMessage = 'Not enough coins!';
