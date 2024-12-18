@@ -60,7 +60,7 @@ img {
   justify-content: center;
   width: fit-content;
   align-items: center;
-  max-width: 200px; 
+  max-width: 200px;
   margin: 20px auto auto auto;
   border: 2px solid #ccc;
   border-radius: 10px;
@@ -160,7 +160,6 @@ img {
 .capitalize {
   text-transform: capitalize;
 }
-
 
 /* .pokemon-container {
   display: flex;
